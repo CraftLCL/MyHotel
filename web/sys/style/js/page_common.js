@@ -115,3 +115,12 @@ function showImage( url, width, height ){
 	window.showModalDialog(url, null, sFeatures);
 }
 
+/*
+function putImg() {
+	/!*var inputsImg=document.getElementById("inputsImg");
+	alert(inputsImg.value);
+	if(inputsImg.value==null){
+		inputsImg.value=document.getElementById("inputImg").src;
+	}*!/
+	alert(123);
+}*/

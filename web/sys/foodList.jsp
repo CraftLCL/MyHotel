@@ -31,9 +31,9 @@
 
 	<!-- 过滤条件 -->
 	<div id="QueryArea">
-		<form action="/wirelessplatform/food.html" method="get">
+		<form action="${pageContext.request.contextPath}/food?method=findByName" method="post">
 			<input type="hidden" name="method" value="search">
-			<input type="text" name="keyword" title="请输入菜品名称">
+			<input type="text" name="foodName" title="请输入菜品名称">
 			<input type="submit" value="搜索">
 		</form>
 	</div>
@@ -69,12 +69,12 @@
 					<tr class="TableDetail1">
 						<td>${food.id}&nbsp;</td>
 						<td>${food.foodName}&nbsp;</td>
-						<td>${food.foodType_id}&nbsp;</td>
+						<td>${food.foodType.typeName}&nbsp;</td>
 						<td>${food.price}&nbsp;</td>
 						<td>${food.mprice}&nbsp;</td>
 						<td>
-							<a href="updateFood.html"  class="FunctionButton">更新</a>
-							<a href="/wirelessplatform/food.html?method=delete&id=1" onClick="return delConfirm();"class="FunctionButton">删除</a>
+							<a href="${pageContext.request.contextPath}/food?method=updateFood&id=${food.id}"  class="FunctionButton">更新</a>
+							<a href="${pageContext.request.contextPath}/food?method=deleteFood&id=${food.id}" onClick="return delConfirm();"class="FunctionButton">删除</a>
 						</td>
 					</tr>
 
@@ -94,7 +94,7 @@
 	
    <!-- 其他功能超链接 -->
 	<div id="TableTail" align="center">
-		<div class="FunctionButton"><a href="${pageContext.request.contextPath}/sys/saveFood.jsp">添加</a></div>
+		<div class="FunctionButton"><a href="${pageContext.request.contextPath}/food?method=beforeFoodSave">添加</a></div>
     </div> 
 </div>
 </body>

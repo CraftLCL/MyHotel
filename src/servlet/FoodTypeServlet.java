@@ -5,6 +5,7 @@ import factory.BeanFactory;
 import service.IFoodTypeService;
 import service.impl.FoodTypeService;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,13 +18,22 @@ import java.util.List;
  * Created by lcl on 2017/4/11.
  * 菜系管理servlet开发
  */
-@WebServlet(name = "FoodTypeServlet",urlPatterns = "/foodType")
+@WebServlet(name = "FoodTypeServlet",urlPatterns = "/foodType",loadOnStartup = 1)
 public class FoodTypeServlet extends HttpServlet {
     //调用菜系服务
  //private IFoodTypeService foodTypeService=BeanFactory.getInstance("foodTypeService", IFoodTypeService.class);
     IFoodTypeService foodTypeService=new FoodTypeService();
     //跳转资源
     private String uri;
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        List<FoodType> list = foodTypeService.getAll();
+        config.getServletContext().setAttribute("foodtype", list);
+        List<FoodType> list2 = (List<FoodType>) config.getServletContext().getAttribute("foodtype");
+        list2.hashCode();
+    }
+
 
 
 

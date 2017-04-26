@@ -7,6 +7,16 @@ public class Food {
     private int id;
     private String foodName;
     private int foodType_id;
+    private FoodType foodType;
+
+    public FoodType getFoodType() {
+        return foodType;
+    }
+
+    public void setFoodType(FoodType foodType) {
+        this.foodType = foodType;
+    }
+
     private double price;
     private double mprice;
     private String remark;
@@ -65,6 +75,23 @@ public class Food {
 
     public void setImg(String img) {
         this.img = img;
+    }
+    @Override
+    public String toString() {
+        return "Food [id=" + id + ", foodName=" + foodName + ", foodType_id="
+                + foodType_id + ", price=" + price + ", mprice=" + mprice
+                + ", remark=" + remark + ", img=" + img + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        return this.id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Food f = (Food)obj;
+        return f.getId()==this.id;
     }
 
 

@@ -1,6 +1,7 @@
 package service;
 
 import entity.Food;
+import utils.PageBean;
 
 import java.util.List;
 
@@ -15,5 +16,10 @@ public interface IFoodService {
     List<Food> findAll();
     List<Food> findAll(String foodName);
     Food findById(int id);
+
+
+    void getAll(PageBean<Food> pb);
+    Food findByIdTwo(int id);
+
 
 }

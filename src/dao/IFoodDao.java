@@ -1,6 +1,7 @@
 package dao;
 
 import entity.Food;
+import utils.PageBean;
 
 import java.util.List;
 
@@ -15,4 +16,15 @@ public interface IFoodDao {
     List<Food> findAll();
     List<Food> findAll(String foodName);
     Food findById(int id);
+
+    //分页并且按条件查询
+   void getAll(PageBean<Food> pb);
+    //按条件统计菜品总数目
+    int getTotalCount(PageBean<Food> pd);
+
+    Food findByIdTwo(int id);
+
+
+
+
 }

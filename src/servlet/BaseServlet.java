@@ -1,7 +1,7 @@
 package servlet;
 
 import factory.BeanFactory;
-import service.IFoodService;
+import service.*;
 import utils.WebUtils;
 
 import javax.servlet.ServletException;
@@ -20,6 +20,13 @@ import java.lang.reflect.Method;
 @WebServlet(name = "BaseServlet")
 public class BaseServlet extends HttpServlet {
     protected IFoodService foodService= BeanFactory.getInstance("foodService",IFoodService.class);
+    protected IFoodTypeService foodTypeService=BeanFactory.getInstance("foodTypeService",IFoodTypeService.class);
+    protected IDinnerTableService dinnerTableService=BeanFactory.getInstance("dinnerTableService",IDinnerTableService.class);
+    protected IOrdersService ordersService = BeanFactory.getInstance("ordersService",
+            IOrdersService.class);
+    protected IOrderDetailService orderDetailService = BeanFactory.getInstance("orderDetailService",
+            IOrderDetailService.class);
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request,response);
     }
@@ -27,6 +34,7 @@ public class BaseServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Object uri=null;
         Object returnValue=null;
+        request.setCharacterEncoding("UTF-8");
         String methodName=request.getParameter("method");
 
         try {

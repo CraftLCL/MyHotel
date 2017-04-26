@@ -13,8 +13,8 @@ import java.util.List;
  * 菜品业务逻辑层接口实现
  */
 public class FoodTypeService implements IFoodTypeService{
-   private IFoodTypeDao foodTypeDao=new FoodTypeDao();
-   // private IFoodTypeDao foodTypeDao= BeanFactory.getInstance("foodTypeDao",IFoodTypeDao.class);
+   //private IFoodTypeDao foodTypeDao=new FoodTypeDao();
+   private IFoodTypeDao foodTypeDao= BeanFactory.getInstance("foodTypeDao",IFoodTypeDao.class);
 
     @Override
     public void save(FoodType foodType) {

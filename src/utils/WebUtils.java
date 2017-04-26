@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.Map;
 
 /**
  * Created by lcl on 2017/4/12.
@@ -34,7 +35,7 @@ public class WebUtils {
     public static <T> T copyTOBean(HttpServletRequest request,Class<T> tClass){
         try {
             T t=tClass.newInstance();
-
+            Map map=request.getParameterMap();
             BeanUtils.populate(t,request.getParameterMap());
             return t;
 

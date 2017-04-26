@@ -1,9 +1,13 @@
 package service.impl;
 
 import dao.IFoodDao;
+import dao.IFoodTypeDao;
+import dao.impl.FoodTypeDao;
 import entity.Food;
+import entity.FoodType;
 import factory.BeanFactory;
 import service.IFoodService;
+import utils.PageBean;
 
 import java.util.List;
 
@@ -13,6 +17,7 @@ import java.util.List;
  */
 public class FoodService implements IFoodService {
     private IFoodDao foodDao= BeanFactory.getInstance("foodDao",IFoodDao.class);
+    private IFoodTypeDao foodTypeDao= BeanFactory.getInstance("foodTypeDao",IFoodTypeDao.class);
     @Override
     public void save(entity.Food food) {
         try {
@@ -49,7 +54,22 @@ public class FoodService implements IFoodService {
     @Override
     public List<Food> findAll() {
         try {
-         return    foodDao.findAll();
+         List<Food> foods=    foodDao.findAll();
+         List<FoodType> foodTypeList= foodTypeDao.getAll();
+            for (Food food:foods
+                 ) {
+                FoodType foodType=new FoodType();
+                foodType.setId(food.getFoodType_id());
+                for (FoodType foodType1:foodTypeList
+                     ) {
+                    if (foodType1.getId()==food.getFoodType_id()){
+                        foodType.setTypeName(foodType1.getTypeName());
+                    }
+                }
+                food.setFoodType(foodType);
+            }
+            return foods;
+
         }catch (Exception e)
         {
             throw new RuntimeException();
@@ -73,10 +93,32 @@ public class FoodService implements IFoodService {
     @Override
     public Food findById(int id) {
         try {
-          return   foodDao.findById(id);
+             Food food= foodDao.findById(id);
+             FoodType foodType= foodTypeDao.findById(food.getFoodType_id());
+             food.setFoodType(foodType);
+             return food;
         }catch (Exception e)
         {
             throw new RuntimeException();
+        }
+
+    }
+
+    @Override
+    public void getAll(PageBean<Food> pb) {
+        try {
+            foodDao.getAll(pb);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Food findByIdTwo(int id) {
+        try {
+          return   foodDao.findByIdTwo(id);
+        } catch (Exception e) {
+           throw new RuntimeException();
         }
 
     }

@@ -1,6 +1,7 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML PUBeqLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 	<!-- 包含公共的JSP代码片段 -->
@@ -10,10 +11,10 @@
 
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="style/js/jquery.js"></script>
-<script type="text/javascript" src="style/js/page_common.js"></script>
-<link href="style/css/common_style_blue.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="style/css/index_1.css" />
+<script type="text/javascript" src="${pageContext.request.contextPath}/sys/style/js/jquery.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/sys/style/js/page_common.js"></script>
+<link href="${pageContext.request.contextPath}/sys/style/css/common_style_blue.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/sys/style/css/index_1.css" />
 </head>
 <body>
 	<!-- 页面标题 -->
@@ -22,7 +23,7 @@
 		<div id="TitleArea_Title">
 			<div id="TitleArea_Title_Content">
 				<img border="0" width="13" height="13"
-					src="style/css/images/title_arrow.gif" /> 订单菜品列表
+					src="${pageContext.request.contextPath}/sys/style/css/images/title_arrow.gif" /> 订单菜品列表
 			</div>
 		</div>
 		<div id="TitleArea_End"></div>
@@ -41,25 +42,21 @@
 			</thead>
 			<!--显示数据列表 -->
 			<tbody id="TableData">
-				
-			 		<tr height="60">
-				 		<td>烤乳猪</td>
-				 		<td>68.0</td>
-				 		<td>1</td>
-			 		</tr>
-			 	
-			 		<tr height="60">
-				 		<td>烤乳猪</td>
-				 		<td>68.0</td>
-				 		<td>1</td>
-			 		</tr>
-			 	
-			 		<tr height="60">
-				 		<td>白切鸡</td>
-				 		<td>68.0</td>
-				 		<td>1</td>
-			 		</tr>
-			 	
+			<c:forEach items="${orderDetail}" var="od">
+				<tr height="60">
+					<c:forEach items="${applicationScope.food}" var="food">
+						<c:if test="${food.id==od.food_id }">
+							<c:set var="foodName" value="${food.foodName}"/>
+							<c:set var="foodPrice" value="${food.price }"/>
+						</c:if>
+					</c:forEach>
+					<td><c:out value="${foodName}"/> </td>
+					<td><c:out value="${foodPrice}"/></td>
+					<td>${od.foodCount}</td>
+				</tr>
+			</c:forEach>
+
+
 			</tbody>
 		</table>
 		<!-- 其他功能超链接 -->

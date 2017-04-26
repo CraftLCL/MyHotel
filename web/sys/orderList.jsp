@@ -1,4 +1,5 @@
 ﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -10,10 +11,10 @@
 
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="style/js/jquery.js"></script>
-<script type="text/javascript" src="style/js/page_common.js"></script>
-<link href="style/css/common_style_blue.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="style/css/index_1.css" />
+<script type="text/javascript" src="${pageContext.request.contextPath}/sys/style/js/jquery.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/sys/style/js/page_common.js"></script>
+<link href="${pageContext.request.contextPath}/sys/style/css/common_style_blue.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/sys/style/css/index_1.css" />
 	<script type="text/javascript">
 		setInterval(function(){
 			window.location.href = "/wirelessplatform/client.html?method=list";
@@ -27,7 +28,7 @@
 		<div id="TitleArea_Title">
 			<div id="TitleArea_Title_Content">
 				<img border="0" width="13" height="13"
-					src="style/images/title_arrow.gif" /> 餐厅订单列表
+					src="${pageContext.request.contextPath}/sys/style/images/title_arrow.gif" /> 餐厅订单列表
 			</div>
 		</div>
 		<div id="TitleArea_End"></div>
@@ -49,32 +50,41 @@
 			</thead>
 			<!--显示数据列表 -->
 			<tbody id="TableData">
-				
-			 		<tr height="60">
-				 		<td>15375222</td>
-				 		<td>纽约</td>
-				 		<td>2014-12-08 23:29:18.0</td>
-				 		<td>204.0</td>
-				 		
-				 			
-				 				<td>未结账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				 					
-				 				</td>
-				 			
-				 			
-				 		
-				 		<td>
-							<a href="orderDetail.html" class="FunctionButton">详细</a> 
-				 			
-				 				<a href="#" class="FunctionButton">结账</a>
-				 			
-				 		</td>
-			 		</tr>
-			 	
+			<c:forEach items="${requestScope.pageBean.pageData}" var="o">
+				<tr height="60">
+					<td>${o.id}</td>
+					<c:forEach  items="${applicationScope.table }" var="table">
+						<c:if test="${o.table_id==table.id }">
+							<c:set var="tableName" value="${table.tableName }"/>
+						</c:if>
+					</c:forEach>
+					<td><c:out value="${tableName}"/></td>
+					<td>${o.orderDate}</td>
+					<td>${o.totalPrice}</td>
+					<c:choose >
+						<c:when test="${o.orderStatus==0}">
+							<td>未结账</td>
+						</c:when>
+						<c:otherwise>
+							<td>已结账</td>
+						</c:otherwise>
+					</c:choose>
+					<td><a href="${pageContext.request.contextPath }/order?method=getOrderDetail&orderId=${o.id}" class="FunctionButton">详细</a>
+
+						<a href="${pageContext.request.contextPath }/order?method=pay&tableId=${o.table_id}&orderId=${o.id}" class="FunctionButton">结账</a></td>
+				</tr>
+			</c:forEach>
+
+
 			</tbody>
 		</table>
 		<!-- 其他功能超链接 -->
 		<div id="TableTail" align="center">
+			当前${requestScope.pageBean.currentPage }/${requestScope.pageBean.totalPage }页     &nbsp;&nbsp;
+			<a href="${pageContext.request.contextPath }/order?method=getOrderList&currentPage=1">首页</a>
+			<a href="${pageContext.request.contextPath }/order?method=getOrderList&currentPage=${requestScope.pageBean.currentPage-1}">上一页 </a>
+			<a href="${pageContext.request.contextPath }/order?method=getOrderList&currentPage=${requestScope.pageBean.currentPage+1}">下一页 </a>
+			<a href="${pageContext.request.contextPath }/order?method=getOrderList&currentPage=${requestScope.pageBean.totalPage}">末页</a>
 		</div>
 	</div>
 </body>

@@ -1,4 +1,5 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -10,10 +11,10 @@
 
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="style/js/jquery.js"></script>
-<script type="text/javascript" src="style/js/page_common.js"></script>
-<link href="style/css/common_style_blue.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="style/css/index_1.css" />
+<script type="text/javascript" src="${pageContext.request.contextPath}/sys/style/js/jquery.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/sys/style/js/page_common.js"></script>
+<link href="${pageContext.request.contextPath}/sys/style/css/common_style_blue.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/sys/style/css/index_1.css" />
 </head>
 <body>
 
@@ -25,7 +26,7 @@
 			
 				
 				
-					<img border="0" width="13" height="13" src="style/images/title_arrow.gif"/> 添加新菜品
+					<img border="0" width="13" height="13" src="${pageContext.request.contextPath}/sys/style/images/title_arrow.gif"/> 添加新菜品
 				
 			
 		</div>
@@ -36,10 +37,10 @@
 <!-- 主内容区域（数据列表或表单显示） -->
 <div id="MainArea">
 	<!-- 表单内容 -->
-	<form action="#" method="post" enctype="multipart/form-data">
+	<form action="${pageContext.request.contextPath}/food?method=foodSave" method="post" enctype="multipart/form-data">
 		<!-- 本段标题（分段标题） -->
 		<div class="ItemBlock_Title">
-        	<img width="4" height="7" border="0" src="style/images/item_point.gif"> 菜品信息&nbsp;
+        	<img width="4" height="7" border="0" src="${pageContext.request.contextPath}/sys/style/images/item_point.gif"> 菜品信息&nbsp;
         </div>
 		<!-- 本段表单字段 -->
         <div class="ItemBlockBorder">
@@ -49,29 +50,34 @@
                     <tr>
 							<td width="80px">菜系</td>
 							<td>
-                            <select name="cid" style="width:80px">
-	                            
-			   						<option value="1" 
+								<%--<c:choose>
+								<c:when test="${not empty requestScope.foodList}">
+								<c:forEach var="food" items="${requestScope.foodList}">
+
+						</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<tr>
+								<td colspan="3">没有你要找的数据</td>
+							</tr>
+						</c:otherwise>
+						</c:choose>--%>
+
+						<select name="foodType_id" style="width:80px">
+							<c:choose>
+								<c:when test="${not empty requestScope.foodTypeList}">
+									<c:forEach var="foodType" items="${requestScope.foodTypeList}">
+										<option  value="${foodType.id}">${foodType.typeName}</option>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<option value="0">请先添加菜系</option>
+								</c:otherwise>
+							</c:choose>
+							<%--<option value="1"
 			   							
-			   						>粤菜</option>
-			   						
-			   					
-			   						<option value="2" 
-			   							
-			   						>川菜</option>
-			   						
-			   					
-			   						<option value="3" 
-			   							
-			   						>湘菜</option>
-			   						
-			   					
-			   						<option value="4" 
-			   							
-			   						>东北菜</option>
-			   						
-			   					
-                            </select>
+			   						>粤菜</option>--%>
+						</select>
                              *<input type="hidden" name="id" value="" /></td>
 						</tr>
 						<tr>
@@ -89,13 +95,13 @@
 						
 						<tr>
 							<td>简介</td>
-							<td><textarea name="introduce" class="TextareaStyle"></textarea></td>
+							<td><textarea name="remark" class="TextareaStyle"></textarea></td>
 						</tr>
 						<tr>
 							<td width="80px">菜品图片</td>
 							<td>
 								
-								<input type="file" name="imageUrl"/> *
+								<input type="file" name="img"/> *
 							</td>
 						</tr>
 					</table>
